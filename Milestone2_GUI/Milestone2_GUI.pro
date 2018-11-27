@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-11-27T15:24:26
+# Project created by QtCreator 2018-11-27T16:24:13
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = untitled
+TARGET = Milestone2_GUI
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
