@@ -3,4 +3,4 @@ project(prg2-pr_milestone2)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(prg2-pr_milestone2 main.cpp City.cpp City.h Vertex.cpp Vertex.h CityController.cpp CityController.h VertexController.cpp VertexController.h ElasticNet.cpp ElasticNet.h)
+add_executable(prg2-pr_milestone2 main.cpp City.cpp City.h Vertex.cpp Vertex.h CityController.cpp CityController.h VertexController.cpp VertexController.h ElasticNet.cpp ElasticNet.h Iterable.h Iterator.cpp Iterator.h)
