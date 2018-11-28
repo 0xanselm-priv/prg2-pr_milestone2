@@ -1,0 +1,12 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\City.o
+./release\CityController.o
+./release\ElasticNet.o
+./release\Iterator.o
+./release\main.o
+./release\Vertex.o
+./release\VertexController.o
+./release\moc_mainwindow.o
+);
