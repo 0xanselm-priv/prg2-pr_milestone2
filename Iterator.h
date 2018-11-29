@@ -17,12 +17,18 @@ private:
     int iter_max;
     float alpha;
     float beta;
+    float k;
+    int n;
 public:
     Iterator(float, int);
     vector <float> add(vector <float>, vector <float>);
     vector <float> sub(vector <float>, vector <float>);
-    void apply(VertexController, CityController);
-    VertexController solve(VertexController, CityController); // look up, adding two vectors
+    void apply(VertexController &, CityController &);
+    VertexController solve(VertexController &, CityController &); // look up, adding two vectors
+
+    float temp_curve(int);
+    float temperatur(int);
+    float inpact(int i, int a, vector <Vertex> verticis, vector <City> cities);
 };
 
 

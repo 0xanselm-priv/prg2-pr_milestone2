@@ -3,14 +3,16 @@
 //
 
 #ifndef PRG2_PR_MILESTONE2_VERTEX_H
-#define PRG2_PR_MILESTONE2_VERTEX_H
 
+#define PRG2_PR_MILESTONE2_VERTEX_H
 #include <vector>
-#include "City.h"
+
+#include <cmath>
+
+
 using namespace std;
 
 class Vertex {
-private:
 private:
     vector <float> coords;
     int id;
@@ -33,37 +35,30 @@ public:
     void set_coords(vector <float> coords){
         this->coords = coords;
     }
-    void set_x(int x){
+    void set_x(float x){
         this->coords[0] = x;
     }
-    void set_y(int y){
+    void set_y(float y){
         this->coords[1] = y;
     }
     void set_id(int id){
         this->id = id;
     }
 
-    vector <float> operator+(Vertex& v){
-        vector <float> result = {this->get_x() + v.get_x(), this->get_y() + v.get_y()};
+    Vertex operator+(Vertex &v){
+        Vertex result = {this->get_x() + v.get_x(), this->get_y() + v.get_y(), -1};
         return result;
     }
-    vector <float> operator+(City& c){
-        vector <float> result = {this->get_x() + c.get_x(), this->get_y() + c.get_y()};
-        return result;
-    }
-    vector <float> operator-(Vertex& v){
-        vector <float> result = {this->get_x() - v.get_x(), this->get_y() - v.get_y()};
-        return result;
-    }
-    vector <float> operator-(City& c){
-        vector <float> result = {this->get_x() - c.get_x(), this->get_y() - c.get_y()};
+    Vertex operator-(Vertex &v){
+        Vertex result = {this->get_x() - v.get_x(), this->get_y() - v.get_y(), -1};
         return result;
     }
 
-    vector <float> operator*(int c){
-        vector <float> result = {this->get_x() * c, this->get_y() * c};
+    Vertex operator*(float c){
+        Vertex result = {this->get_x() * c, this->get_y() * c, -1};
         return result;
     }
+
 
 };
 

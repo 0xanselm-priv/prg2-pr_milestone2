@@ -3,9 +3,10 @@
 //
 
 #include "City.h"
+#include "Vertex.h"
 
 
-City::City(int x, int y, int id) {
+City::City(float x, float y, int id) {
     set_x(x);
     set_y(y);
     set_id(id);
