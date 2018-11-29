@@ -15,6 +15,14 @@ private:
     int id;
 public:
     CityController();
+
+    int get_id(){
+        return this->id;
+    }
+
+    City get_city(int id){
+        return this->cities[id];
+    }
     void add_city(int x, int y); // increment id every call ----- look for minimalabstand
     vector <City> get_cities();
 };
