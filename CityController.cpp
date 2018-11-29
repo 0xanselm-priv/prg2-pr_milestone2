@@ -5,8 +5,8 @@
 #include "CityController.h"
 #include "City.h"
 
-void CityController::add_city(float x, float y) {
-    City city {x, y, id};
-    this->cities.push_back(city);
+void CityController::AddCity(float x, float y) {
+    City city {x, y, this->id_};
+    this->cities_.push_back(city);
     this->id_ ++;
 }

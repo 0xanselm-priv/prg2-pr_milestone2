@@ -29,7 +29,6 @@ class Vertex {
   Vertex operator+(Vertex& v);
   Vertex operator-(Vertex& v);
   Vertex operator*(float c);
-  float operator%(Vertex& v);
  private:
   vector <float> coords_;
   int id_;

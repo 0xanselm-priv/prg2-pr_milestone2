@@ -17,7 +17,7 @@ public:
   Vertex vertex(int id);
   vector <Vertex> get_vertices() { return vertices_; }
   int id() { return id_; }
-  void aply_delta(int id, vector <float> delta);
+  void ApplyDelta(int id, vector <float> delta);
  private:
   vector <Vertex> vertices_;
   int id_;

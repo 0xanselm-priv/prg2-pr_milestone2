@@ -13,6 +13,7 @@
 
 class City : public Vertex {
  public:
+  using Vertex::Vertex;
   float operator%(Vertex& v);
 };
 

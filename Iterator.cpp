@@ -10,8 +10,6 @@
 #include <cmath>
 using namespace std;
 
-
-
 Iterator::Iterator(float eta_goal, int iter_max, float alpha, float beta, float k)
     : eta_goal(eta_goal), iter_max(iter_max), alpha(alpha), beta(beta), k(k) {}
 
@@ -51,7 +49,7 @@ void Iterator::apply(VertexController& vertex_controller, CityController& city_c
 
         // first part of equation (ALPHA)
         for (int i = 0; i < city_controller.id(); i++) {
-            City city_i = city_controller.get_city(i);
+            City city_i = city_controller.city(i);
             Vertex vertx_a = old_vertexes.vertex(a);
             Vertex rest = ((city_i - vertx_a) * inpact(i, a, vertex_controller.get_vertices(), city_controller.get_cities()));
             Vertex alpha_done = (alpha_vertex + rest) * this->alpha;

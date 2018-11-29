@@ -11,7 +11,6 @@ using namespace std;
 
 class CityController {
  public:
-  CityController();
   int id() { return this->id_; }
   City city(int id){ return cities_[id]; }
   void AddCity(float x, float y); // increment id every call ----- look for minimalabstand
