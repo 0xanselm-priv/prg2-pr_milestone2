@@ -26,10 +26,24 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    ../City.cpp \
+    ../CityController.cpp \
+    ../ElasticNet.cpp \
+    ../Iterator.cpp \
+    ../main.cpp \
+    ../Vertex.cpp \
+    ../VertexController.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    ../City.h \
+    ../CityController.h \
+    ../ElasticNet.h \
+    ../Iterable.h \
+    ../Iterator.h \
+    ../Vertex.h \
+    ../VertexController.h
 
 FORMS += \
         mainwindow.ui
