@@ -16,16 +16,20 @@ private:
     float cv_ratio;
     float eta_goal;
     int iter_max;
+    float alpha;
+    float beta;
+    float k;
+    int city_num = 0;
+
 
     VertexController vertex_controller {0};
     CityController city_controller;
-public:
-    ElasticNet(float cv_ratio, float eta_goal, int iter_max);
-    void add_city(int x, int y); // initalisiert jedes mal ein neues vretex controller und ersetzt dieses
 
-    void start(){
-        this->vertex_controller = Iterator(this->eta_goal, this->iter_max).solve(this->vertex_controller, this->city_controller);  // start übergibt iterator all die Objekte, die Iterator dann verändert und aktualisiert das elatische netz mit dem ergbenis
-    };
+public:
+
+    ElasticNet(float cv_ratio, float eta_goal, int iter_max, float alpha, float beta, float k);
+    void add_city(float x, float y); // initalisiert jedes mal ein neues vretex controller und ersetzt dieses
+
 
 };
 

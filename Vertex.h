@@ -45,11 +45,11 @@ public:
         this->id = id;
     }
 
-    Vertex operator+(Vertex &v){
+    Vertex operator+(Vertex& v){
         Vertex result = {this->get_x() + v.get_x(), this->get_y() + v.get_y(), -1};
         return result;
     }
-    Vertex operator-(Vertex &v){
+    Vertex operator-(Vertex& v){
         Vertex result = {this->get_x() - v.get_x(), this->get_y() - v.get_y(), -1};
         return result;
     }

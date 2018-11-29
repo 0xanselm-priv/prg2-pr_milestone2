@@ -10,7 +10,7 @@
 
 class Iterable {
 public:
-    virtual VertexController apply() = 0;
+    virtual void apply(VertexController&, CityController&) = 0;
 };
 
 #endif //PRG2_PR_MILESTONE2_ITERABLE_H

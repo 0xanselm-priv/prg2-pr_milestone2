@@ -8,6 +8,6 @@
 using namespace std;
 
 Vertex VertexController::get_vertex(int id){
-
+    return this->vertices[id];
 }
 

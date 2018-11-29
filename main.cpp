@@ -8,6 +8,6 @@ using namespace std;
 
 int main(){
     cout << "Hello World" << endl;
-    Iterator it {0.5, 3};
+    Iterator it {0.5, 3, 0.1, 0.2, 3};
 }
 

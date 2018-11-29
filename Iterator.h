@@ -18,13 +18,16 @@ private:
     float alpha;
     float beta;
     float k;
-    int n;
+    int n = 0;
 public:
-    Iterator(float, int);
+    Iterator(float, int, float, float, float);
+
     vector <float> add(vector <float>, vector <float>);
     vector <float> sub(vector <float>, vector <float>);
-    void apply(VertexController &, CityController &);
-    VertexController solve(VertexController &, CityController &); // look up, adding two vectors
+
+    void apply(VertexController&, CityController&);
+
+    VertexController solve(VertexController&, CityController&); // look up, adding two vectors
 
     float temp_curve(int);
     float temperatur(int);
