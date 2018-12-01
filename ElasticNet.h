@@ -20,15 +20,18 @@ private:
     float beta;
     float k;
     int city_num = 0;
+    float radius;
 
 
-    VertexController vertex_controller {0};
+    VertexController vertex_controller {0, 0};
     CityController city_controller;
 
 public:
 
-    ElasticNet(float cv_ratio, float eta_goal, int iter_max, float alpha, float beta, float k);
+    ElasticNet(float cv_ratio, float eta_goal, int iter_max, float alpha, float beta, float k, float radius);
+
     void add_city(float x, float y); // initalisiert jedes mal ein neues vretex controller und ersetzt dieses
+    void solve();
 
 
 };

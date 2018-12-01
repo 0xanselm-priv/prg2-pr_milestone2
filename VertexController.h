@@ -14,8 +14,12 @@ class VertexController {
 private:
     vector <Vertex> vertices;
     int id;
+    float cv_ratio;
+    float radius;
+    int city_num;
+
 public:
-    VertexController(int j); // k is the number of cities
+    VertexController(int j, float cv_ratio, float radius); // k is the number of cities
 
     Vertex get_vertex(int id);
     vector <Vertex> get_vertices(){
