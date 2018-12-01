@@ -1,8 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "/VertexController.h"
-
 #include <QMainWindow>
 
 namespace Ui {
@@ -19,7 +17,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    MainWindow::test();
+
+    void MainWindow::test();
 };
 
 #endif // MAINWINDOW_H
