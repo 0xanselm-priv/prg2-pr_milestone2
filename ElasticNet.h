@@ -23,6 +23,9 @@ private:
     int city_num = 0;
     float radius;
 
+    float mid_x = 0;
+    float mid_y = 0;
+
 
     CityController city_controller;
     VertexController vertex_controller {0, 0, city_controller};
@@ -37,6 +40,15 @@ public:
 
     void print_vertex();
     void print_city();
+
+    float get_mid_x(){
+        return this->mid_x;
+    }
+
+    float get_mid_y(){
+        return this->mid_y;
+    }
+
 
 };
 
