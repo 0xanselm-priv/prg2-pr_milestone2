@@ -5,6 +5,7 @@
 #ifndef PRG2_PR_MILESTONE2_VERTEXCONTROLLER_H
 #define PRG2_PR_MILESTONE2_VERTEXCONTROLLER_H
 
+#include "CityController.h"
 #include <vector>
 #include "Vertex.h"
 using namespace std;
@@ -13,13 +14,16 @@ using namespace std;
 class VertexController {
 private:
     vector <Vertex> vertices;
-    int id;
+    int id = 0;
     float cv_ratio;
     float radius;
     int city_num;
+    int vertex_num;
+    float mid_x = 0;
+    float mid_y = 0;
 
 public:
-    VertexController(int j, float cv_ratio, float radius); // k is the number of cities
+    VertexController(float cv_ratio, float radius, CityController cities); // k is the number of cities
 
     Vertex get_vertex(int id);
     vector <Vertex> get_vertices(){
@@ -29,10 +33,9 @@ public:
         return this->id;
     }
 
-    void aply_delta(int id, vector <float> delta){
-        Vertex vertex = this->vertices[id];
-        vector <float> new_coords {vertex.get_x() + delta[0], vertex.get_y() + delta[1]};
-        vertex.set_coords(new_coords);
+    void aply_delta(int id, Vertex delta){
+        this->vertices[id].set_x(vertices[id].get_x() + delta.get_x());
+        this->vertices[id].set_y(vertices[id].get_y() + delta.get_y());
     }
 };
 

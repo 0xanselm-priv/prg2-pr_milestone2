@@ -10,6 +10,7 @@
 #include "Vertex.h"
 #include <cmath>
 #include <vector>
+#include <iostream>
 using namespace std;
 
 
@@ -17,7 +18,7 @@ using namespace std;
 
 class City {
 private:
-    vector <float> coords;
+    vector <float> coords {0,0};
     int id;
 public:
     City(float x, float y, int id);

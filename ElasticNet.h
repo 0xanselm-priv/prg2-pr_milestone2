@@ -11,6 +11,7 @@
 #include "Iterator.h"
 #include <vector>
 
+
 class ElasticNet {
 private:
     float cv_ratio;
@@ -23,8 +24,9 @@ private:
     float radius;
 
 
-    VertexController vertex_controller {0, 0};
     CityController city_controller;
+    VertexController vertex_controller {0, 0, city_controller};
+
 
 public:
 
@@ -33,6 +35,8 @@ public:
     void add_city(float x, float y); // initalisiert jedes mal ein neues vretex controller und ersetzt dieses
     void solve();
 
+    void print_vertex();
+    void print_city();
 
 };
 

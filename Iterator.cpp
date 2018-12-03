@@ -31,10 +31,15 @@ vector <float> Iterator::sub(vector<float> x, vector<float> y) {
 
 float Iterator::inpact(int i, int a, vector <Vertex> verticis, vector <City> cities) {
     float t = 0;
-    for(int m = 0; m < verticis.size(); i++){
-        t += pow(exp(1), -((cities[i] % verticis[m])/temperatur(this->n)));
+    float tn = temperatur(this->n);
+    for(int m = 0; m < verticis.size(); m++){
+        t += pow(exp(1), -((cities[i] % verticis[m])/tn));
+        cout << "TEIL " << pow(exp(1), -((cities[i] % verticis[m])/tn)) << endl;
     }
-    return (pow(exp(1), -((cities[i] % verticis[a]) / temperatur(this->n)))) / (t);
+    cout << endl << "V " << i << " tn " << tn << " a " << a << endl << (pow(exp(1), -((cities[i] % verticis[a]) / tn))) / (t) << endl;
+    cout << "DER OBERE TEIL " << (pow(exp(1), -((cities[i] % verticis[a]) / tn))) << endl;
+    cout << "DER UNTERE TEIL " << t << endl;
+    return (pow(exp(1), -((cities[i] % verticis[a]) / tn))) / (t);
 }
 
 float Iterator::temperatur(int n){
@@ -46,13 +51,14 @@ float Iterator::temp_curve(int m){
 }
 
 void Iterator::apply(VertexController& vertex_controller, CityController& city_controller) {
+    cout << "!"  << endl;
 
-    this->n++;
 
     int m = vertex_controller.get_id();
     VertexController old_vertexes = vertex_controller; // saves vertex of n because calcula
 
     for (int a = 0; a < vertex_controller.get_id(); a++) {
+        cout << "VECTOR " << a << endl;
         Vertex alpha_vertex{0, 0, -1};
         Vertex beta_vertex{0, 0, -1};
 
@@ -61,25 +67,34 @@ void Iterator::apply(VertexController& vertex_controller, CityController& city_c
             City city_i = city_controller.get_city(i);
             Vertex vertx_a = old_vertexes.get_vertex(a);
             Vertex rest = ((city_i - vertx_a) * inpact(i, a, vertex_controller.get_vertices(), city_controller.get_cities()));
-            Vertex alpha_done = (alpha_vertex + rest) * this->alpha;
+            cout << "ADASJD " << inpact(i, a, vertex_controller.get_vertices(), city_controller.get_cities()) << endl;
+            alpha_vertex = alpha_vertex + rest;
         }
 
-        Vertex vertex_a_m1 = old_vertexes.get_vertex(a-1 % m);
+        Vertex alpha_done = (alpha_vertex) * this->alpha;
+
+        cout << alpha_done.get_x() << endl;
+        cout << "....." << alpha_done.get_y() << endl;
+
+        Vertex vertex_a_m1 = old_vertexes.get_vertex((a-1) % m);
         Vertex vertex_a_0 = old_vertexes.get_vertex(a);
-        Vertex vertex_a_p1 = (old_vertexes.get_vertex(a+1 % m) * 2);
+        int ap = (a+1) % m;
+        Vertex vertex_a_p1 = (old_vertexes.get_vertex(ap) * 2);
         Vertex res = (vertex_a_m1 + vertex_a_0) - vertex_a_p1;
         Vertex re = (res * temp_curve(n));
         Vertex beta_done = (beta_vertex + re) * this->beta;
+
+        Vertex delta = alpha_done + beta_done;
+
+        vertex_controller.aply_delta(a, delta);
     }
+
+    this->n++;
 }
 
-VertexController Iterator::solve(VertexController& vertex_controller, CityController& city_controller){
+void Iterator::solve(VertexController& vertex_controller, CityController& city_controller){
     int iter_number = 0;
-    while(true){
+    while(this->n < this->iter_max) {
         apply(vertex_controller, city_controller);
-        cout << "Ha" << endl;
-        break;
     }
-
-    return vertex_controller;
 }

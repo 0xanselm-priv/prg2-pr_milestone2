@@ -12,10 +12,8 @@ using namespace std;
 class CityController {
 private:
     vector <City> cities;
-    int id;
+    int id = 0;
 public:
-    CityController();
-
     int get_id(){
         return this->id;
     }

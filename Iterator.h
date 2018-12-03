@@ -27,7 +27,7 @@ public:
 
     void apply(VertexController&, CityController&);
 
-    VertexController solve(VertexController&, CityController&); // look up, adding two vectors
+    void solve(VertexController&, CityController&); // look up, adding two vectors
 
     float temp_curve(int);
     float temperatur(int);

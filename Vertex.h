@@ -14,7 +14,7 @@ using namespace std;
 
 class Vertex {
 private:
-    vector <float> coords;
+    vector <float> coords {0,0};
     int id;
 public:
     Vertex(float x, float y, int id);
