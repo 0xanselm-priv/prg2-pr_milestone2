@@ -33,9 +33,9 @@ public:
         return this->id;
     }
 
-    void aply_delta(int id, Vertex delta){
-        this->vertices[id].set_x(vertices[id].get_x() + delta.get_x());
-        this->vertices[id].set_y(vertices[id].get_y() + delta.get_y());
+    void aply_delta(int id, float delta_x, float delta_y){
+        this->vertices[id].set_x(vertices[id].get_x() + delta_x);
+        this->vertices[id].set_y(vertices[id].get_y() + delta_y);
     }
 };
 

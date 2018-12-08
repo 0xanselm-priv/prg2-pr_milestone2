@@ -29,17 +29,30 @@ vector <float> Iterator::sub(vector<float> x, vector<float> y) {
     return ret_vector;
 }
 
-float Iterator::inpact(int i, int a, vector <Vertex> verticis, vector <City> cities) {
-    float t = 0;
-    float tn = temperatur(this->n);
-    for(int m = 0; m < verticis.size(); m++){
-        t += pow(exp(1), -((cities[i] % verticis[m])/tn));
-        cout << "TEIL " << pow(exp(1), -((cities[i] % verticis[m])/tn)) << endl;
+float Iterator::inpact(int i, int a, VertexController& vertex_controller, CityController& city_controller) {
+    float city_x = city_controller.get_city(i).get_x();
+    float city_y = city_controller.get_city(i).get_x();
+
+    float vertex_x = vertex_controller.get_vertex(a).get_x();
+    float vertex_y = vertex_controller.get_vertex(a).get_y();
+
+    float t_n = temperatur(this->n);
+
+    double top = pow(exp(1), -(pow(pow(city_x - vertex_x, 2) + pow(city_y - vertex_y, 2),0.5))/t_n);
+    double bottom = 0;
+
+    float vertex_x_a = 0;
+    float vertex_y_a = 0;
+
+    for(int c = 0; c < this->m; c++){
+        vertex_x_a = vertex_controller.get_vertex(c).get_x();
+        vertex_y_a = vertex_controller.get_vertex(c).get_y();
+        bottom += pow(exp(1), -(pow(pow(city_x - vertex_x_a, 2) + pow(city_y - vertex_y_a, 2),0.5))/t_n);
     }
-    cout << endl << "V " << i << " tn " << tn << " a " << a << endl << (pow(exp(1), -((cities[i] % verticis[a]) / tn))) / (t) << endl;
-    cout << "DER OBERE TEIL " << (pow(exp(1), -((cities[i] % verticis[a]) / tn))) << endl;
-    cout << "DER UNTERE TEIL " << t << endl;
-    return (pow(exp(1), -((cities[i] % verticis[a]) / tn))) / (t);
+
+    int ret = (top/bottom) * 10000;
+
+    return ret/10000;
 }
 
 float Iterator::temperatur(int n){
@@ -50,50 +63,43 @@ float Iterator::temp_curve(int m){
     return max(pow(0.99, floor(m/50)) * this->k, 0.01);
 }
 
+
 void Iterator::apply(VertexController& vertex_controller, CityController& city_controller) {
-    cout << "!"  << endl;
+    for(int a = 0; a < vertex_controller.get_id(); a++){
 
+        // get number of vertexes
+        this->m = vertex_controller.get_id();
 
-    int m = vertex_controller.get_id();
-    VertexController old_vertexes = vertex_controller; // saves vertex of n because calcula
+        float a_x = vertex_controller.get_vertex(a).get_x();
+        float a_y = vertex_controller.get_vertex(a).get_y();
 
-    for (int a = 0; a < vertex_controller.get_id(); a++) {
-        cout << "VECTOR " << a << endl;
-        Vertex alpha_vertex{0, 0, -1};
-        Vertex beta_vertex{0, 0, -1};
+        cout << "Vector " << a << "(" << a_x << ", " << a_y << ")\n\n";
 
-        // first part of equation (ALPHA)
-        for (int i = 0; i < city_controller.get_id(); i++) {
-            City city_i = city_controller.get_city(i);
-            Vertex vertx_a = old_vertexes.get_vertex(a);
-            Vertex rest = ((city_i - vertx_a) * inpact(i, a, vertex_controller.get_vertices(), city_controller.get_cities()));
-            cout << "ADASJD " << inpact(i, a, vertex_controller.get_vertices(), city_controller.get_cities()) << endl;
-            alpha_vertex = alpha_vertex + rest;
+        double alpha_x = 0;
+        double alpha_y = 0;
+
+        for(int i = 0; i < city_controller.get_id(); i++){
+            float impact = inpact(i, a, vertex_controller, city_controller);
+            alpha_x += impact * (city_controller.get_city(i).get_x() - a_x);
+            alpha_y += impact * (city_controller.get_city(i).get_y() - a_y);
         }
+        cout << "LETS Aply!" << endl;
+        double beta_x = vertex_controller.get_vertex((((a-1)%m)+m)%m).get_x() - (2 * a_x) + vertex_controller.get_vertex((a+1)%m).get_x();
+        double beta_y = vertex_controller.get_vertex((((a-1)%m)+m)%m).get_y() - (2 * a_y) + vertex_controller.get_vertex((a+1)%m).get_y();
 
-        Vertex alpha_done = (alpha_vertex) * this->alpha;
+        beta_x *= temperatur(this->n);
+        beta_y *= temperatur(this->n);
 
-        cout << alpha_done.get_x() << endl;
-        cout << "....." << alpha_done.get_y() << endl;
+        float ret_x = (this->alpha * alpha_x) + (this->beta * beta_x);
+        float ret_y = (this->alpha * alpha_y) + (this->beta * beta_y);
 
-        Vertex vertex_a_m1 = old_vertexes.get_vertex((a-1) % m);
-        Vertex vertex_a_0 = old_vertexes.get_vertex(a);
-        int ap = (a+1) % m;
-        Vertex vertex_a_p1 = (old_vertexes.get_vertex(ap) * 2);
-        Vertex res = (vertex_a_m1 + vertex_a_0) - vertex_a_p1;
-        Vertex re = (res * temp_curve(n));
-        Vertex beta_done = (beta_vertex + re) * this->beta;
-
-        Vertex delta = alpha_done + beta_done;
-
-        vertex_controller.aply_delta(a, delta);
+        vertex_controller.aply_delta(a, ret_x, ret_y);
     }
 
     this->n++;
 }
 
 void Iterator::solve(VertexController& vertex_controller, CityController& city_controller){
-    int iter_number = 0;
     while(this->n < this->iter_max) {
         apply(vertex_controller, city_controller);
     }

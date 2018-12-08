@@ -19,6 +19,7 @@ private:
     float beta;
     float k;
     int n = 0;
+    int m = 0;
 public:
     Iterator(float, int, float, float, float);
 
@@ -31,7 +32,7 @@ public:
 
     float temp_curve(int);
     float temperatur(int);
-    float inpact(int i, int a, vector <Vertex> verticis, vector <City> cities);
+    float inpact(int i, int a, VertexController& vertex_controller, CityController& city_controller);
 };
 
 

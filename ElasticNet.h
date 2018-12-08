@@ -8,8 +8,10 @@
 #include "VertexController.h"
 #include "CityController.h"
 #include "City.h"
+#include "Vertex.h"
 #include "Iterator.h"
 #include <vector>
+using namespace std;
 
 
 class ElasticNet {
@@ -44,9 +46,15 @@ public:
     float get_mid_x(){
         return this->mid_x;
     }
-
     float get_mid_y(){
         return this->mid_y;
+    }
+
+    vector <Vertex> get_vertex_list(){
+        return this->vertex_controller.get_vertices();
+    }
+    vector <City> get_city_list(){
+        return this->city_controller.get_cities();
     }
 
 

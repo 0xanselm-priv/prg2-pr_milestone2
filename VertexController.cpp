@@ -32,8 +32,12 @@ VertexController::VertexController(float cv_ratio, float radius, CityController 
 
         for (int k = 0; k < this->vertex_num; k++) {
             float param = degree * k;
-            float x = this->mid_x + cos(param * PI / 180.0) * this->radius;
-            float y = this->mid_y + sin(param * PI / 180.0) * this->radius;
+            float x = (this->mid_x + cos(param * PI / 180.0) * this->radius);
+            float y = (this->mid_y + sin(param * PI / 180.0) * this->radius);
+            int x_r = x * 10000;
+            int y_r = y * 10000;
+            x = x_r/10000.0;
+            y = y_r/10000.0;
             Vertex vertex{x, y, id};
             this->vertices.push_back(vertex);
             this->id++;
