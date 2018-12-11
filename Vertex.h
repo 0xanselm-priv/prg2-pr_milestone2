@@ -13,25 +13,53 @@
 using namespace std;
 
 class Vertex {
- public:
-  Vertex(float x, float y, int id);
+private:
+    vector <float> coords {0,0};
+    int id;
+public:
+    Vertex(float x, float y, int id);
 
-  float x() { return coords_[0]; }
-  float y() { return coords_[1]; }
-  int id() { return id_; }
-  std::vector <float> coords() { return coords_; }
+    float get_x(){
+        return this->coords[0];
+    }
+    float get_y(){
+        return this->coords[1];
+    }
+    int get_id(){
+        return this->id;
+    }
+    vector <float> get_coords(){
+        return this->coords;
+    }
 
-  void set_coords(vector <float> coords) { coords = coords; }
-  void set_x(float x) { coords_[0] = x; }
-  void set_y(float y) { coords_[1] = y; }
-  void set_id(int id) { id_ = id; }
-// overloaded operators for calculations
-  Vertex operator+(Vertex& v);
-  Vertex operator-(Vertex& v);
-  Vertex operator*(float c);
- private:
-  vector <float> coords_;
-  int id_;
+    void set_coords(vector <float> coords){
+        this->coords = coords;
+    }
+    void set_x(float x){
+        this->coords[0] = x;
+    }
+    void set_y(float y){
+        this->coords[1] = y;
+    }
+    void set_id(int id){
+        this->id = id;
+    }
+
+    Vertex operator+(Vertex& v){
+        Vertex result = {this->get_x() + v.get_x(), this->get_y() + v.get_y(), -1};
+        return result;
+    }
+    Vertex operator-(Vertex& v){
+        Vertex result = {this->get_x() - v.get_x(), this->get_y() - v.get_y(), -1};
+        return result;
+    }
+
+    Vertex operator*(float c){
+        Vertex result = {this->get_x() * c, this->get_y() * c, -1};
+        return result;
+    }
+
+
 };
 
 

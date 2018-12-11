@@ -10,14 +10,21 @@
 using namespace std;
 
 class CityController {
- public:
-  int id() { return this->id_; }
-  City city(int id){ return cities_[id]; }
-  void AddCity(float x, float y); // increment id every call ----- look for minimalabstand
-  vector <City> get_cities() { return cities_; }
- private:
-  vector <City> cities_;
-  int id_;
+private:
+    vector <City> cities;
+    int id = 0;
+public:
+    int get_id(){
+        return this->id;
+    }
+    City get_city(int id){
+        return this->cities[id];
+    }
+
+    void add_city(float x, float y); // increment id every call ----- look for minimalabstand
+    vector <City> get_cities(){
+        return this->cities;
+    }
 };
 
 

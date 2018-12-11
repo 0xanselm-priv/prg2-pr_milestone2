@@ -5,22 +5,38 @@
 #ifndef PRG2_PR_MILESTONE2_VERTEXCONTROLLER_H
 #define PRG2_PR_MILESTONE2_VERTEXCONTROLLER_H
 
+#include "CityController.h"
 #include <vector>
 #include "Vertex.h"
 using namespace std;
 
 
 class VertexController {
+private:
+    vector <Vertex> vertices;
+    int id = 0;
+    float cv_ratio;
+    float radius;
+    int city_num;
+    int vertex_num;
+    float mid_x = 0;
+    float mid_y = 0;
 
 public:
-  VertexController(int j); // k is the number of cities
-  Vertex vertex(int id);
-  vector <Vertex> get_vertices() { return vertices_; }
-  int id() { return id_; }
-  void ApplyDelta(int id, vector <float> delta);
- private:
-  vector <Vertex> vertices_;
-  int id_;
+    VertexController(float cv_ratio, float radius, CityController cities); // k is the number of cities
+
+    Vertex get_vertex(int id);
+    vector <Vertex> get_vertices(){
+        return this->vertices;
+    };
+    int get_id(){
+        return this->id;
+    }
+
+    void aply_delta(int id, float delta_x, float delta_y){
+        this->vertices[id].set_x(vertices[id].get_x() + delta_x);
+        this->vertices[id].set_y(vertices[id].get_y() + delta_y);
+    }
 };
 
 

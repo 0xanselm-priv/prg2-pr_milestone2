@@ -12,23 +12,30 @@
 using namespace std;
 
 class Iterator: public Iterable {
- public:
-  Iterator(float, int, float, float, float);
-  vector <float> add(vector <float>, vector <float>);
-  vector <float> sub(vector <float>, vector <float>);
-  void apply(VertexController&, CityController&);
-  VertexController solve(VertexController&, CityController&); // look up, adding two vectors
-  float temp_curve(int);
-  float temperatur(int);
-  float inpact(int i, int a, vector <Vertex> verticis, vector <City> cities);
+private:
+    float eta_goal;
+    int iter_max;
+    float alpha;
+    float beta;
+    float k;
+    int n = 0;
+    int m = 0;
+public:
+    Iterator(float, int, float, float, float);
 
- private:
-  float eta_goal;
-  int iter_max;
-  float alpha;
-  float beta;
-  float k;
-  int n;
+    vector <float> add(vector <float>, vector <float>);
+    vector <float> sub(vector <float>, vector <float>);
+
+    void apply(VertexController&, CityController&);
+
+    void solve(VertexController&, CityController&); // look up, adding two vectors
+
+    bool check_single_city(VertexController& vertex_controller, City c);
+    bool check_distance(VertexController& vertex_controller, CityController& city_controller);
+    float temp_curve(int);
+    float temperatur(int);
+    float inpact(int i, int a, VertexController& vertex_controller, CityController& city_controller);
 };
+
 
 #endif //PRG2_PR_MILESTONE2_ITERATOR_H

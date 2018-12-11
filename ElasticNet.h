@@ -8,24 +8,57 @@
 #include "VertexController.h"
 #include "CityController.h"
 #include "City.h"
+#include "Vertex.h"
 #include "Iterator.h"
 #include <vector>
+using namespace std;
+
 
 class ElasticNet {
- public:
-  ElasticNet(float cv_ratio, float eta_goal, int iter_max, float alpha, float beta, float k);
-  void AddCity(float x, float y); // initalisiert jedes mal ein neues vretex controller und ersetzt dieses
- 
- private:
-  float cv_ratio;
-  float eta_goal;
-  int iter_max;
-  float alpha;
-  float beta;
-  float k;
-  int city_num = 0;
-  VertexController vertex_controller {0};
-  CityController city_controller;
+private:
+    float cv_ratio;
+    float eta_goal;
+    int iter_max;
+    float alpha;
+    float beta;
+    float k;
+    int city_num = 0;
+    float radius;
+
+    float mid_x = 0;
+    float mid_y = 0;
+
+
+    CityController city_controller;
+    VertexController vertex_controller {0, 0, city_controller};
+
+
+public:
+
+    ElasticNet(float cv_ratio, float eta_goal, int iter_max, float alpha, float beta, float k, float radius);
+
+    void add_city(float x, float y); // initalisiert jedes mal ein neues vretex controller und ersetzt dieses
+    void solve();
+
+    void print_vertex();
+    void print_city();
+
+    float get_mid_x(){
+        return this->mid_x;
+    }
+    float get_mid_y(){
+        return this->mid_y;
+    }
+
+    vector <Vertex> get_vertex_list(){
+        return this->vertex_controller.get_vertices();
+    }
+    vector <City> get_city_list(){
+        return this->city_controller.get_cities();
+    }
+
+
 };
+
 
 #endif //PRG2_PR_MILESTONE2_ELASTICNET_H

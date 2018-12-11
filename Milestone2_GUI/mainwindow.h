@@ -1,8 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "/VertexController.h"
-
 #include <QMainWindow>
 
 namespace Ui {
@@ -19,7 +17,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    MainWindow::test();
+
+
+protected:
+    void mousePressEvent(QMouseEvent *ev);
 };
 
 #endif // MAINWINDOW_H

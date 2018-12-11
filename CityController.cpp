@@ -4,9 +4,14 @@
 
 #include "CityController.h"
 #include "City.h"
+#include <iostream>
+using namespace std;
 
-void CityController::AddCity(float x, float y) {
-    City city {x, y, this->id_};
-    this->cities_.push_back(city);
-    this->id_ ++;
+void CityController::add_city(float x, float y) {
+
+    City city {x, y, id};
+    this->cities.push_back(city);
+    this->id ++;
+
+
 }
