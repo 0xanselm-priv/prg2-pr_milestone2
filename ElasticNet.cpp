@@ -50,11 +50,6 @@ void ElasticNet::solve() {
     it.solve(this->vertex_controller, this->city_controller);
 }
 
-void ElasticNet::aply() {
-    it.aply()
-
-
-}
 
 void ElasticNet::print_city() {
     for(int i = 0; i < city_controller.get_id(); i++){

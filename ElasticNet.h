@@ -39,7 +39,6 @@ public:
 
     void add_city(float x, float y); // initalisiert jedes mal ein neues vretex controller und ersetzt dieses
     void solve();
-    void aply();
 
     void print_vertex();
     void print_city();
