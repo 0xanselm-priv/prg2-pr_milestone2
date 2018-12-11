@@ -11,19 +11,19 @@ int main(){
 
     ElasticNet net {2, 0.003, 200, 1, 0.01, 0.1, 1}; //(float cv_ratio, float eta_goal, int iter_max, float alpha, float beta, float k, float radius);
 
-    net.print_vertex();
-    net.print_city();
+    net.PrintVertex();
+    net.PrintCity();
 
-    net.add_city(0.0, 2);
-    net.add_city(0.0, -2);
+    net.AddCity(0.0, 2);
+    net.AddCity(0.0, -2);
 
 
-    net.print_vertex();
-    net.print_city();
+    net.PrintVertex();
+    net.PrintCity();
 
-    net.solve();
+    net.Solve();
 
-    net.print_vertex();
-    net.print_city();
+    net.PrintVertex();
+    net.PrintCity();
 }
 

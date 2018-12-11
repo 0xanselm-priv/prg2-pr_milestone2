@@ -28,7 +28,7 @@ public:
 
     void apply(VertexController&, CityController&);
 
-    void solve(VertexController&, CityController&); // look up, adding two vectors
+    void Solve(VertexController&, CityController&); // look up, adding two vectors
 
     bool check_single_city(VertexController& vertex_controller, City c);
     bool check_distance(VertexController& vertex_controller, CityController& city_controller);

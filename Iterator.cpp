@@ -143,7 +143,7 @@ bool Iterator::check_distance(VertexController& vertex_controller, CityControlle
 
 
 
-void Iterator::solve(VertexController& vertex_controller, CityController& city_controller){
+void Iterator::Solve(VertexController& vertex_controller, CityController& city_controller){
     while(this->n < this->iter_max && check_distance(vertex_controller, city_controller)) {
         apply(vertex_controller, city_controller);
     }

@@ -21,7 +21,7 @@ public:
         return this->cities[id];
     }
 
-    void add_city(float x, float y); // increment id every call ----- look for minimalabstand
+    void AddCity(float x, float y); // increment id every call ----- look for minimalabstand
     vector <City> get_cities(){
         return this->cities;
     }
