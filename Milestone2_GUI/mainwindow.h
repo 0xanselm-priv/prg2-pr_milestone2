@@ -18,7 +18,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 public slots:
-    void myfunction();
+    void applying();
 
 private:
     Ui::MainWindow *ui;
@@ -38,7 +38,7 @@ private slots:
     void on_beta_valueChanged(double arg1);
     void on_k_valueChanged(double arg1);
     void on_radius_valueChanged(double arg1);
-    void on_pushButton_clicked();
+    void on_start_button_clicked();
 };
 
 #endif // MAINWINDOW_H

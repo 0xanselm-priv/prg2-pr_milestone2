@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <QDebug>
 #include <iostream>
+#include <QMessageBox>
 
 #include <vector>
 #include <tuple>
@@ -26,6 +27,8 @@ typedef std::vector< std::tuple<float, float> > cities_type;
 cities_type cities_list;
 
 ElasticNet net;
+
+int run_counter = 0;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -65,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Timer init
     timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(myfunction()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(applying()));
 
     //Call Elastic Net Constructor
 
@@ -79,9 +82,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::myfunction()
+void MainWindow::applying()
 {
-    qDebug() << "update";
+    qDebug() << "Applying " << "run counter" << QString::number(run_counter);
+    //net.solve();
+    //net.apply();
 }
 
 void MainWindow::log_append(QString to_append) {
@@ -115,7 +120,15 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
     cities_list.push_back(std::tuple<float, float>(float(x),float(y)));
 
     //pushing cities in Elastic Net Object
-    net.add_city(x_float, y_float);
+    for (int i = 0; i < net.get_city_list().size(); ++i) {
+        City city(x_float, y_float, 1);
+        if(net.get_city_list()[i]%city > (2*eta_goal_value)){
+            net.add_city(x_float, y_float);
+        } else {
+            QMessageBox::warning(this,"Filepath","No valid Filepath");
+        }
+    }
+
 
     QPixmap pixmap(canvas_width, canvas_height);
     pixmap.fill(QColor("transparent"));
@@ -141,16 +154,27 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
         this->log_append("Vertex List Size: " + QString::number(net.get_vertex_list().size()));
     }
 
+    //Drawing Mid - Niels Style
+    int factor = 10;
     int mid_x = int(net.get_mid_x());
     int mid_y = int(net.get_mid_y());
-    qDebug() << net.get_mid_x();
     painter.setBrush(Qt::black);
-    painter.drawRect(mid_x, mid_y, 50, 50);
+    painter.drawLine(mid_x-factor, mid_y, mid_x+factor, mid_y);
+    painter.drawLine(mid_x, mid_y-factor, mid_x, mid_y+factor);
     this->log_append("Mid: " + QString::number(mid_x) + " " + QString::number(mid_y));
+
+    //Drawing Mid - Robert Style
+    int factor_r = 10;
+    int mid_x_r = canvas_width/2;
+    int mid_y_r = canvas_height/2;
+    painter.setBrush(Qt::yellow);
+    painter.drawLine(mid_x_r-factor_r, mid_y_r, mid_x_r+factor_r, mid_y_r);
+    painter.drawLine(mid_x_r, mid_y_r-factor_r, mid_x_r, mid_y_r+factor_r);
+    this->log_append("Mid: " + QString::number(mid_x_r) + " " + QString::number(mid_y_r));
 
     //Drawing connecting lines between vertices
     for (int i = 0; i < net.get_vertex_list().size() - 1; ++i) {
-        //Copied Code.
+        // Look out for logic error
         int vert1_x = net.get_vertex_list()[i].get_x();
         int vert1_y = net.get_vertex_list()[i].get_y();
         int vert2_x = net.get_vertex_list()[i+1].get_x();
@@ -158,7 +182,15 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
         QLineF line(vert1_x, vert1_y, vert2_x, vert2_y);
         painter.drawLine(line);
     }
-
+    int length = net.get_vertex_list().size();
+    int vert1_x = net.get_vertex_list()[0].get_x();
+    int vert1_y = net.get_vertex_list()[0].get_y();
+    int vert2_x = net.get_vertex_list()[length-1].get_x();
+    int vert2_y = net.get_vertex_list()[length-1].get_y();
+    QLineF line(vert1_x, vert1_y, vert2_x, vert2_y);
+    painter.setBrush(Qt::blue);
+    painter.drawLine(line);
+    //End Vertex Painting
 
     ui->canvas_label->setPixmap(pixmap);
 }
@@ -233,14 +265,31 @@ void MainWindow::on_radius_valueChanged(double arg1)
     net.set_radius(radius_value);
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_start_button_clicked()
 {
-//    net.set_cv_ratio(cv_ratio_value);
-//    net.set_eta_goal(eta_goal_value);
-//    net.set_iter_max(iter_max_value);
-//    net.set_alpha(alpha_value);
-//    net.set_beta(beta_value);
-//    net.set_k(k_value);
-//    net.set_radius(radius_value);
-    timer->start(1000);
+    //    net.set_cv_ratio(cv_ratio_value);
+    //    net.set_eta_goal(eta_goal_value);
+    //    net.set_iter_max(iter_max_value);
+    //    net.set_alpha(alpha_value);
+    //    net.set_beta(beta_value);
+    //    net.set_k(k_value);
+    //    net.set_radius(radius_value);
+
+    if (run_counter == 0) {
+        ui->start_button->setText("Stop");
+        run_counter++;
+        this->log_append("Start or Apply");
+        timer->start(1000);
+    } else if (run_counter % 2 == 0 && run_counter > 1) {
+        ui->start_button->setText("Stop");
+        run_counter++;
+        this->log_append("Continue to Apply");
+        timer->start(1000);
+    } else if (run_counter % 2 == 1) {
+        timer->stop();
+        ui->start_button->setText("Continue");
+        run_counter++;
+        this->log_append("Paused");
+    }
+
 }
