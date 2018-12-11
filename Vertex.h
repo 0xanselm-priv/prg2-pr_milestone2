@@ -51,22 +51,9 @@ public:
     void set_min_dist(float min_dist){
         this->min_dist = min_dist;
     }
-
-    Vertex operator+(Vertex& v){
-        Vertex result = {this->get_x() + v.get_x(), this->get_y() + v.get_y(), -1};
-        return result;
-    }
-    Vertex operator-(Vertex& v){
-        Vertex result = {this->get_x() - v.get_x(), this->get_y() - v.get_y(), -1};
-        return result;
-    }
-
-    Vertex operator*(float c){
-        Vertex result = {this->get_x() * c, this->get_y() * c, -1};
-        return result;
-    }
-
-
+    Vertex operator+(Vertex& v);
+    Vertex operator-(Vertex& v);
+    Vertex operator*(float c);
 };
 
 

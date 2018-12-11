@@ -30,39 +30,13 @@ public:
     void set_id(int id) { this->id = id; }
 
 // das addieren und subtrahieren von städten und vertexen ergibt das ergebnis des Vektors
-    Vertex operator+(Vertex& v){
-        Vertex result = {this->get_x() + v.get_x(), this->get_y() + v.get_y(), -1};
-        return result;
-    }
-    Vertex operator+(City& c){
-        Vertex result = {this->get_x() + c.get_x(), this->get_y() + c.get_y(), -1};
-        return result;
-    }
-    Vertex operator-(Vertex& v){
-        Vertex result = {this->get_x() - v.get_x(), this->get_y() - v.get_y(), -1};
-        return result;
-    }
-    Vertex operator-(City& c){
-        Vertex result = {this->get_x() - c.get_x(), this->get_y() - c.get_y(), -1};
-        return result;
-    }
-
-    Vertex operator*(float c){
-        Vertex result = {this->get_x() * c, this->get_y() * c, -1};
-        return result;
-    }
-
-    float operator%(Vertex& v){
-        float x = (this->get_x() - v.get_x());
-        float y = (this->get_y() - v.get_y());
-        return pow(sqrt(pow(x, 2) + pow(y, 2)),0.5);
-    }
-
-    float operator%(City& v){
-        float x = (this->get_x() - v.get_x());
-        float y = (this->get_y() - v.get_y());
-        return pow(sqrt(pow(x, 2) + pow(y, 2)),0.5);
-    }
+    Vertex operator+(Vertex& v);
+    Vertex operator+(City& c);
+    Vertex operator-(Vertex& v);
+    Vertex operator-(City& c);
+    Vertex operator*(float c);
+    float operator%(Vertex& v);
+    float operator%(City& v);
 };
 
 
