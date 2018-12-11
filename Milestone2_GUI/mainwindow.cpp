@@ -126,7 +126,10 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
         net.add_city(x_float, y_float);
     } else {
         for (int i = 0; i < net.get_city_list().size(); i++) {
-            if ((net.get_city_list()[i] % city) < (2 * eta_goal_value)){
+            qDebug() << city % net.get_city_list()[i];
+            float dist = city % net.get_city_list()[i];
+            float eta_2 = 2 * eta_goal_value;
+            if (dist < eta_2){
                 QMessageBox::warning(this,"Distance Warning","City too close.");
                 break;
             } else {
