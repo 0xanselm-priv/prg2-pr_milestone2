@@ -29,6 +29,8 @@ cities_type cities_list;
 
 ElasticNet net;
 
+Iterator it(eta_goal_value, iter_max_value, alpha_value, beta_value, k_value);
+
 int run_counter = 0;
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -48,23 +50,26 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->cv_ratio->setValue(2.5);
     ui->cv_ratio->setMaximum(50.0);
 
-    ui->eta_goal->setMinimum(0.01);
-    ui->eta_goal->setValue(2.0);
+    ui->eta_goal->setMinimum(0.00001);
+    ui->eta_goal->setValue(0.005);
     ui->eta_goal->setMaximum(50.0);
 
     ui->iter_max->setMinimum(1);
-    ui->iter_max->setMaximum(50);
+    ui->iter_max->setValue(10000);
+    ui->iter_max->setMaximum(50000);
 
     ui->alpha->setMinimum(0.01);
+    ui->alpha->setValue(1.0);
     ui->alpha->setMaximum(50.0);
 
     ui->beta->setMinimum(0.01);
+    ui->beta->setValue(1.0);
     ui->beta->setMaximum(50.0);
 
     ui->k->setMinimum(0.01);
     ui->k->setMaximum(50.0);
 
-    ui->radius->setMinimum(1.0);
+    ui->radius->setMinimum(0.1);
     ui->radius->setMaximum(50.0);
 
     //Timer init
@@ -88,6 +93,50 @@ void MainWindow::applying()
     qDebug() << "Applying " << "run counter" << QString::number(run_counter);
     //net.solve();
     //net.apply();
+    it.set_k(k_value);
+    it.set_beta(beta_value);
+    it.set_alpha(alpha_value);
+    it.set_iter_max(iter_max_value);
+    it.set_eta_goal(eta_goal_value);
+
+    it.apply(net.vertex_controller, net.city_controller);
+
+    QPixmap pixmap(canvas_width, canvas_height);
+    pixmap.fill(QColor("transparent"));
+    QPainter painter (&pixmap);
+
+    for (int i = 0; i < net.get_city_list().size(); ++i) {
+        int x_coord = net.get_city_list()[i].get_x();
+        int y_coord = net.get_city_list()[i].get_y();
+        painter.setBrush(Qt::red);
+        painter.drawRect(x_coord, y_coord, 5, 5);
+        this->log_append("Last City added: " + QString::number(x_coord) + " " + QString::number(y_coord));
+    }
+
+    //Drawing connecting lines between vertices
+    for (int i = 0; i < net.get_vertex_list().size() - 1; ++i) {
+        // Look out for logic error
+        int vert1_x = net.get_vertex_list()[i].get_x();
+        int vert1_y = net.get_vertex_list()[i].get_y();
+        int vert2_x = net.get_vertex_list()[i+1].get_x();
+        int vert2_y = net.get_vertex_list()[i+1].get_y();
+        QLineF line(vert1_x, vert1_y, vert2_x, vert2_y);
+        painter.drawLine(line);
+    }
+    int length = net.get_vertex_list().size();
+    int vert1_x = net.get_vertex_list()[0].get_x();
+    int vert1_y = net.get_vertex_list()[0].get_y();
+    int vert2_x = net.get_vertex_list()[length-1].get_x();
+    int vert2_y = net.get_vertex_list()[length-1].get_y();
+    QLineF line(vert1_x, vert1_y, vert2_x, vert2_y);
+    painter.setBrush(Qt::blue);
+    painter.drawLine(line);
+    //End Vertex Painting
+
+    ui->canvas_label->setPixmap(pixmap);
+
+
+
 }
 
 void MainWindow::log_append(QString to_append) {
@@ -130,7 +179,7 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
             float dist = city % net.get_city_list()[i];
             float eta_2 = 2 * eta_goal_value;
             if (dist < eta_2){
-                QMessageBox::warning(this,"Distance Warning","City too close.");
+                QMessageBox::warning(this,"Distance Warning","Proximity ok");
                 break;
             } else {
                 net.add_city(x_float, y_float);
@@ -283,16 +332,18 @@ void MainWindow::on_start_button_clicked()
     //    net.set_k(k_value);
     //    net.set_radius(radius_value);
 
+    int timer_int = 100;
+
     if (run_counter == 0) {
         ui->start_button->setText("Stop");
         run_counter++;
         this->log_append("Start or Apply");
-        timer->start(1000);
+        timer->start(timer_int);
     } else if (run_counter % 2 == 0 && run_counter > 1) {
         ui->start_button->setText("Stop");
         run_counter++;
         this->log_append("Continue to Apply");
-        timer->start(1000);
+        timer->start(timer_int);
     } else if (run_counter % 2 == 1) {
         timer->stop();
         ui->start_button->setText("Continue");
