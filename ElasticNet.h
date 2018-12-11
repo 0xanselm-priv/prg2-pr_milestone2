@@ -57,7 +57,27 @@ public:
         return this->city_controller.get_cities();
     }
 
-
+    float get_cv_ratio(){
+        return this->cv_ratio;
+    }
+    float get_eta_goal(){
+        return this->eta_goal;
+    }
+    int get_iter_max(){
+        return this->iter_max;
+    }
+    float get_alpha(){
+        return this->alpha;
+    }
+    float get_beta(){
+        return this->beta;
+    }
+    float get_k(){
+        return this->k;
+    }
+    float get_radius(){
+        return this->radius;
+    }
 };
 
 
