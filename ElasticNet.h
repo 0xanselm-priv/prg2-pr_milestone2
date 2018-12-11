@@ -36,6 +36,7 @@ private:
 public:
 
     ElasticNet(float cv_ratio, float eta_goal, int iter_max, float alpha, float beta, float k, float radius);
+    ElasticNet();
 
     void add_city(float x, float y); // initalisiert jedes mal ein neues vretex controller und ersetzt dieses
     void solve();
@@ -78,6 +79,14 @@ public:
     float get_radius(){
         return this->radius;
     }
+
+    void set_cv_ratio(float cv_ratio);
+    void set_eta_goal(float eta_goal);
+    void set_iter_max(int iter_max);
+    void set_alpha(float alpha);
+    void set_beta(float beta);
+    void set_k(float k);
+    void set_radius(float radius);
 };
 
 
