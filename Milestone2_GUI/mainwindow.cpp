@@ -90,7 +90,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::applying()
 {
-    qDebug() << "Applying " << "run counter" << QString::number(run_counter);
+    //qDebug() << "Applying " << "run counter" << QString::number(run_counter);
     //net.solve();
     //net.apply();
     it.set_k(k_value);
@@ -101,10 +101,12 @@ void MainWindow::applying()
 
     it.apply(net.vertex_controller, net.city_controller);
 
+
     QPixmap pixmap(canvas_width, canvas_height);
     pixmap.fill(QColor("transparent"));
     QPainter painter (&pixmap);
 
+    //Paint Vertices
     for (int i = 0; i < net.get_city_list().size(); ++i) {
         int x_coord = net.get_city_list()[i].get_x();
         int y_coord = net.get_city_list()[i].get_y();
@@ -112,6 +114,34 @@ void MainWindow::applying()
         painter.drawRect(x_coord, y_coord, 5, 5);
         this->log_append("Last City added: " + QString::number(x_coord) + " " + QString::number(y_coord));
     }
+
+    //Paint Vertices
+    for (int i = 0; i < net.get_vertex_list().size(); ++i) {
+        int x_coord = int (net.get_vertex_list()[i].get_x());
+        int y_coord = int (net.get_vertex_list()[i].get_y());
+        painter.setBrush(Qt::green);
+        painter.drawRect(x_coord, y_coord, 5, 5);
+        this->log_append("Last Vertex added: " + QString::number(x_coord) + " " + QString::number(y_coord));
+        this->log_append("Vertex List Size: " + QString::number(net.get_vertex_list().size()));
+    }
+
+    //Drawing Mid - Niels Style
+    int factor = 10;
+    int mid_x = int(net.get_mid_x());
+    int mid_y = int(net.get_mid_y());
+    painter.setBrush(Qt::black);
+    painter.drawLine(mid_x-factor, mid_y, mid_x+factor, mid_y);
+    painter.drawLine(mid_x, mid_y-factor, mid_x, mid_y+factor);
+    this->log_append("Mid: " + QString::number(mid_x) + " " + QString::number(mid_y));
+
+    //Drawing Mid - Robert Style
+    //    int factor_r = 10;
+    //    int mid_x_r = canvas_width/2;
+    //    int mid_y_r = canvas_height/2;
+    //    painter.setBrush(Qt::yellow);
+    //    painter.drawLine(mid_x_r-factor_r, mid_y_r, mid_x_r+factor_r, mid_y_r);
+    //    painter.drawLine(mid_x_r, mid_y_r-factor_r, mid_x_r, mid_y_r+factor_r);
+    //    this->log_append("Mid: " + QString::number(mid_x_r) + " " + QString::number(mid_y_r));
 
     //Drawing connecting lines between vertices
     for (int i = 0; i < net.get_vertex_list().size() - 1; ++i) {
@@ -134,9 +164,6 @@ void MainWindow::applying()
     //End Vertex Painting
 
     ui->canvas_label->setPixmap(pixmap);
-
-
-
 }
 
 void MainWindow::log_append(QString to_append) {
@@ -175,7 +202,7 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
         net.add_city(x_float, y_float);
     } else {
         for (int i = 0; i < net.get_city_list().size(); i++) {
-            qDebug() << city % net.get_city_list()[i];
+            //qDebug() << city % net.get_city_list()[i];
             float dist = city % net.get_city_list()[i];
             float eta_2 = 2 * eta_goal_value;
             if (dist < eta_2){
@@ -221,13 +248,13 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
     this->log_append("Mid: " + QString::number(mid_x) + " " + QString::number(mid_y));
 
     //Drawing Mid - Robert Style
-    int factor_r = 10;
-    int mid_x_r = canvas_width/2;
-    int mid_y_r = canvas_height/2;
-    painter.setBrush(Qt::yellow);
-    painter.drawLine(mid_x_r-factor_r, mid_y_r, mid_x_r+factor_r, mid_y_r);
-    painter.drawLine(mid_x_r, mid_y_r-factor_r, mid_x_r, mid_y_r+factor_r);
-    this->log_append("Mid: " + QString::number(mid_x_r) + " " + QString::number(mid_y_r));
+    //    int factor_r = 10;
+    //    int mid_x_r = canvas_width/2;
+    //    int mid_y_r = canvas_height/2;
+    //    painter.setBrush(Qt::yellow);
+    //    painter.drawLine(mid_x_r-factor_r, mid_y_r, mid_x_r+factor_r, mid_y_r);
+    //    painter.drawLine(mid_x_r, mid_y_r-factor_r, mid_x_r, mid_y_r+factor_r);
+    //    this->log_append("Mid: " + QString::number(mid_x_r) + " " + QString::number(mid_y_r));
 
     //Drawing connecting lines between vertices
     for (int i = 0; i < net.get_vertex_list().size() - 1; ++i) {
@@ -332,7 +359,7 @@ void MainWindow::on_start_button_clicked()
     //    net.set_k(k_value);
     //    net.set_radius(radius_value);
 
-    int timer_int = 100;
+    int timer_int = 1000;
 
     if (run_counter == 0) {
         ui->start_button->setText("Stop");

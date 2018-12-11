@@ -86,7 +86,7 @@ void Iterator::apply(VertexController& vertex_controller, CityController& city_c
             alpha_x += impact * (city_controller.get_city(i).get_x() - a_x);
             alpha_y += impact * (city_controller.get_city(i).get_y() - a_y);
         }
-        cout << "LETS Aply!" << endl;
+        cout << "LETS Apply!" << endl;
         double beta_x = old_vertexes.get_vertex((((a-1)%m)+m)%m).get_x() - (2 * a_x) + old_vertexes.get_vertex((a+1)%m).get_x();
         double beta_y = old_vertexes.get_vertex((((a-1)%m)+m)%m).get_y() - (2 * a_y) + old_vertexes.get_vertex((a+1)%m).get_y();
 
