@@ -29,11 +29,10 @@ private:
     float mid_y = 0;
 
 
+public:
+
     CityController city_controller;
     VertexController vertex_controller {0, 0, city_controller};
-
-
-public:
 
     ElasticNet(float cv_ratio, float eta_goal, int iter_max, float alpha, float beta, float k, float radius);
     ElasticNet();
