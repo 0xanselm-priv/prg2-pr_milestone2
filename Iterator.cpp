@@ -31,7 +31,7 @@ vector <float> Iterator::sub(vector<float> x, vector<float> y) {
 
 float Iterator::inpact(int i, int a, VertexController& vertex_controller, CityController& city_controller) {
     float city_x = city_controller.get_city(i).get_x();
-    float city_y = city_controller.get_city(i).get_x();
+    float city_y = city_controller.get_city(i).get_y();
 
     float vertex_x = vertex_controller.get_vertex(a).get_x();
     float vertex_y = vertex_controller.get_vertex(a).get_y();
@@ -50,9 +50,9 @@ float Iterator::inpact(int i, int a, VertexController& vertex_controller, CityCo
         bottom += pow(exp(1), -(pow(pow(city_x - vertex_x_a, 2) + pow(city_y - vertex_y_a, 2),0.5))/t_n);
     }
 
-    int ret = (top/bottom) * 10000;
+    cout << "INPACT(" << i << "," << a << ") = " << top/bottom << endl << "TOP = " << top << endl << "BOTTOM = " << bottom << endl << "Temperatur: " << t_n << endl << endl;
 
-    return ret/10000;
+    return top/bottom;
 }
 
 float Iterator::temperatur(int n){
@@ -67,6 +67,8 @@ float Iterator::temp_curve(int m){
 void Iterator::apply(VertexController& vertex_controller, CityController& city_controller) {
     for(int a = 0; a < vertex_controller.get_id(); a++){
 
+        VertexController old_vertexes = vertex_controller;
+
         // get number of vertexes
         this->m = vertex_controller.get_id();
 
@@ -79,19 +81,23 @@ void Iterator::apply(VertexController& vertex_controller, CityController& city_c
         double alpha_y = 0;
 
         for(int i = 0; i < city_controller.get_id(); i++){
-            float impact = inpact(i, a, vertex_controller, city_controller);
+            float impact = inpact(i, a, old_vertexes, city_controller);
             alpha_x += impact * (city_controller.get_city(i).get_x() - a_x);
             alpha_y += impact * (city_controller.get_city(i).get_y() - a_y);
         }
         cout << "LETS Aply!" << endl;
-        double beta_x = vertex_controller.get_vertex((((a-1)%m)+m)%m).get_x() - (2 * a_x) + vertex_controller.get_vertex((a+1)%m).get_x();
-        double beta_y = vertex_controller.get_vertex((((a-1)%m)+m)%m).get_y() - (2 * a_y) + vertex_controller.get_vertex((a+1)%m).get_y();
+        double beta_x = old_vertexes.get_vertex((((a-1)%m)+m)%m).get_x() - (2 * a_x) + old_vertexes.get_vertex((a+1)%m).get_x();
+        double beta_y = old_vertexes.get_vertex((((a-1)%m)+m)%m).get_y() - (2 * a_y) + old_vertexes.get_vertex((a+1)%m).get_y();
 
-        beta_x *= temperatur(this->n);
-        beta_y *= temperatur(this->n);
+        cout << "BETA X = " << beta_x << "  For Vector " << a << " -  In roound " << n <<  endl;
+
+        beta_x *= temp_curve(this->n);
+        beta_y *= temp_curve(this->n);
 
         float ret_x = (this->alpha * alpha_x) + (this->beta * beta_x);
         float ret_y = (this->alpha * alpha_y) + (this->beta * beta_y);
+
+        cout << "Delta for Vector " << a << ": alpha = (" << alpha_x << "|" << alpha_y << "), beta = (" << beta_x << "|" << beta_y << ")" << endl << "K(" << this->n << ") ="<< temp_curve(this->n) << endl;
 
         vertex_controller.aply_delta(a, ret_x, ret_y);
     }
