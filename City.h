@@ -72,10 +72,17 @@ public:
         Vertex result = {this->get_x() * c, this->get_y() * c, -1};
         return result;
     }
+
     float operator%(Vertex& v){
         float x = (this->get_x() - v.get_x());
         float y = (this->get_y() - v.get_y());
-        return pow(sqrt(pow(x, 2) + pow(y, 2)),2);
+        return pow(sqrt(pow(x, 2) + pow(y, 2)),0.5);
+    }
+
+    float operator%(City& v){
+        float x = (this->get_x() - v.get_x());
+        float y = (this->get_y() - v.get_y());
+        return pow(sqrt(pow(x, 2) + pow(y, 2)),0.5);
     }
 };
 

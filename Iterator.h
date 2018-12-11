@@ -30,6 +30,8 @@ public:
 
     void solve(VertexController&, CityController&); // look up, adding two vectors
 
+    bool check_single_city(VertexController& vertex_controller, City c);
+    bool check_distance(VertexController& vertex_controller, CityController& city_controller);
     float temp_curve(int);
     float temperatur(int);
     float inpact(int i, int a, VertexController& vertex_controller, CityController& city_controller);

@@ -47,6 +47,7 @@ float Iterator::inpact(int i, int a, VertexController& vertex_controller, CityCo
     for(int c = 0; c < this->m; c++){
         vertex_x_a = vertex_controller.get_vertex(c).get_x();
         vertex_y_a = vertex_controller.get_vertex(c).get_y();
+        cout << "Vertex " << c << " = (" << vertex_x_a << "|" << vertex_y_a << ")" << endl;
         bottom += pow(exp(1), -(pow(pow(city_x - vertex_x_a, 2) + pow(city_y - vertex_y_a, 2),0.5))/t_n);
     }
 
@@ -65,9 +66,9 @@ float Iterator::temp_curve(int m){
 
 
 void Iterator::apply(VertexController& vertex_controller, CityController& city_controller) {
-    for(int a = 0; a < vertex_controller.get_id(); a++){
+    VertexController old_vertexes = vertex_controller;
 
-        VertexController old_vertexes = vertex_controller;
+    for(int a = 0; a < vertex_controller.get_id(); a++){
 
         // get number of vertexes
         this->m = vertex_controller.get_id();
@@ -90,6 +91,7 @@ void Iterator::apply(VertexController& vertex_controller, CityController& city_c
         double beta_y = old_vertexes.get_vertex((((a-1)%m)+m)%m).get_y() - (2 * a_y) + old_vertexes.get_vertex((a+1)%m).get_y();
 
         cout << "BETA X = " << beta_x << "  For Vector " << a << " -  In roound " << n <<  endl;
+        cout << "BETA Y = " << beta_y << "  For Vector " << a << " -  In roound " << n <<  endl;
 
         beta_x *= temp_curve(this->n);
         beta_y *= temp_curve(this->n);
@@ -105,8 +107,32 @@ void Iterator::apply(VertexController& vertex_controller, CityController& city_c
     this->n++;
 }
 
+bool Iterator::check_single_city(VertexController& vertex_controller, City c) {
+    for (int a = 0; a < vertex_controller.get_id(); a++) {
+        Vertex v = vertex_controller.get_vertex(a);
+        if(c%v < this->eta_goal){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Iterator::check_distance(VertexController& vertex_controller, CityController& city_controller){
+    for(int i = 0; i < city_controller.get_id(); i++){
+        City c = city_controller.get_city(i);
+        if (!check_single_city(vertex_controller, c)){
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
 void Iterator::solve(VertexController& vertex_controller, CityController& city_controller){
-    while(this->n < this->iter_max) {
+    while(this->n < this->iter_max && check_distance(vertex_controller, city_controller)) {
         apply(vertex_controller, city_controller);
     }
+    cout << "One of the criterias where reached..." << endl;
 }
+

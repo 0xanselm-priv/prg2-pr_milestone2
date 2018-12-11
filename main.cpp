@@ -9,7 +9,7 @@ using namespace std;
 int main(){
     cout << "Hello World" << endl;
 
-    ElasticNet net {2, 0.005, 2, 1, 1, 0.1, 1}; //(float cv_ratio, float eta_goal, int iter_max, float alpha, float beta, float k, float radius);
+    ElasticNet net {2, 0.003, 2000, 1, 0, 0.1, 1}; //(float cv_ratio, float eta_goal, int iter_max, float alpha, float beta, float k, float radius);
 
     net.print_vertex();
     net.print_city();
