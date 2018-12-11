@@ -4,6 +4,7 @@
 
 #include "ElasticNet.h"
 #include "Iterator.h"
+#include "VertexController.h"
 #include <iostream>
 #include <iostream>
 using namespace std;
@@ -36,6 +37,10 @@ void ElasticNet::add_city(float x, float y) {
 
     VertexController ver {this->cv_ratio, this->radius, city_controller};
     this->vertex_controller = ver;
+
+    this->mid_x = vertex_controller.get_mid_x();
+    this->mid_y = vertex_controller.get_mid_y();
+
 }
 
 void ElasticNet::solve() {
@@ -43,6 +48,12 @@ void ElasticNet::solve() {
     cout << "SOLVING ... " << endl;
 
     it.solve(this->vertex_controller, this->city_controller);
+}
+
+void ElasticNet::aply() {
+    it.aply()
+
+
 }
 
 void ElasticNet::print_city() {

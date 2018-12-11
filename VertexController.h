@@ -25,6 +25,12 @@ private:
 public:
     VertexController(float cv_ratio, float radius, CityController cities); // k is the number of cities
 
+    float get_mid_x(){
+        return this->mid_x;
+    }
+    float get_mid_y(){
+        return this->mid_y;
+    }
     Vertex get_vertex(int id);
     vector <Vertex> get_vertices(){
         return this->vertices;
