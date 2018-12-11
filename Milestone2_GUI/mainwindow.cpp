@@ -121,13 +121,12 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
     //cities_list.push_back(std::tuple<float, float>(float(x),float(y)));
 
     //pushing cities in Elastic Net Object
-    if (net.get_city_list().size() == 0) {
+    City city(x_float, y_float, 0.0);
+    if (net.get_city_list().empty()) {
         net.add_city(x_float, y_float);
     } else {
         for (int i = 0; i < net.get_city_list().size(); i++) {
-            City city(x_float, y_float, 0.0);
-            if (net.get_city_list()[i] % city < (2 * eta_goal_value)){
-                qDebug() << net.get_city_list()[i] % city;
+            if ((net.get_city_list()[i] % city) < (2 * eta_goal_value)){
                 QMessageBox::warning(this,"Distance Warning","City too close.");
                 break;
             } else {
@@ -152,7 +151,6 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
 
     //Paint Vertices
     for (int i = 0; i < net.get_vertex_list().size(); ++i) {
-        qDebug() << i;
         int x_coord = int (net.get_vertex_list()[i].get_x());
         int y_coord = int (net.get_vertex_list()[i].get_y());
         painter.setBrush(Qt::green);
