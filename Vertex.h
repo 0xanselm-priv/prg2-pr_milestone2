@@ -16,6 +16,7 @@ class Vertex {
 private:
     vector <float> coords {0,0};
     int id;
+    float min_dist = 0;
 public:
     Vertex(float x, float y, int id);
 
@@ -31,6 +32,9 @@ public:
     vector <float> get_coords(){
         return this->coords;
     }
+    float get_min_dist(){
+        return this->min_dist;
+    }
 
     void set_coords(vector <float> coords){
         this->coords = coords;
@@ -43,6 +47,9 @@ public:
     }
     void set_id(int id){
         this->id = id;
+    }
+    void set_min_dist(float min_dist){
+        this->min_dist = min_dist;
     }
 
     Vertex operator+(Vertex& v){
