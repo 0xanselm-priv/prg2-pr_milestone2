@@ -2,6 +2,8 @@
 // Created by Niels Heissel on 27.11.18.
 //
 
+#define STOP_COMPUTATION_EARLY
+
 #include "Iterator.h"
 #include <vector>
 #include <iostream>
@@ -80,12 +82,24 @@ void Iterator::apply(VertexController& vertex_controller, CityController& city_c
 
         double alpha_x = 0;
         double alpha_y = 0;
-
+        #ifdef STOP_COMPUTATION_EARLY
+        bool do_not_update = false;
+        #endif
         for(int i = 0; i < city_controller.get_id(); i++){
+            #ifdef STOP_COMPUTATION_EARLY
+            if(pow(vertex_controller.get_vertex(a).get_x() - city_controller.get_city(i).get_y(),2)
+            + pow(vertex_controller.get_vertex(a).get_x() - city_controller.get_city(i).get_y(),2) <= this->eta_goal){
+                do_not_update = true;
+                break;
+            }
+            #endif
             float impact = inpact(i, a, old_vertexes, city_controller);
             alpha_x += impact * (city_controller.get_city(i).get_x() - a_x);
             alpha_y += impact * (city_controller.get_city(i).get_y() - a_y);
         }
+        #ifdef STOP_COMPUTATION_EARLY
+        if(do_not_update)return;
+        #endif
         cout << "LETS Aply!" << endl;
         double beta_x = old_vertexes.get_vertex((((a-1)%m)+m)%m).get_x() - (2 * a_x) + old_vertexes.get_vertex((a+1)%m).get_x();
         double beta_y = old_vertexes.get_vertex((((a-1)%m)+m)%m).get_y() - (2 * a_y) + old_vertexes.get_vertex((a+1)%m).get_y();

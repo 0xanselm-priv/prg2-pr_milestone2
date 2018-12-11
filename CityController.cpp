@@ -8,10 +8,7 @@
 using namespace std;
 
 void CityController::add_city(float x, float y) {
-
     City city {x, y, id};
     this->cities.push_back(city);
     this->id ++;
-
-
 }
