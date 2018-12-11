@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>547</width>
+    <height>514</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,25 +19,147 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>261</width>
-      <height>281</height>
+      <width>401</width>
+      <height>411</height>
      </rect>
     </property>
     <property name="text">
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="coord_label">
+   <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>0</y>
-      <width>47</width>
-      <height>13</height>
+      <x>410</x>
+      <y>10</y>
+      <width>121</width>
+      <height>391</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Config:</string>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Cursor Pos:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="coord_label">
+       <property name="text">
+        <string>X:    Y:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>CV_Ratio:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="cv_ratio"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Eta_Goal:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="eta_goal"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Iter_Max:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="iter_max"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Alpha:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="alpha"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Beta:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="beta"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>K:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="k"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>Radius:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="radius"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="city_counter">
+       <property name="text">
+        <string>City Counter:</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>410</y>
+      <width>121</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>Start</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="log_label">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>440</y>
+      <width>391</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Message Box:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
     </property>
    </widget>
   </widget>

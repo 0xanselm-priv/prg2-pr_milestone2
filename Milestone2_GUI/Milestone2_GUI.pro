@@ -34,6 +34,12 @@ SOURCES += \
 #    ../main.cpp \
 #    ../Vertex.cpp \
 #    ../VertexController.cpp
+    ../City.cpp \
+    ../CityController.cpp \
+    ../ElasticNet.cpp \
+    ../Iterator.cpp \
+    ../Vertex.cpp \
+    ../VertexController.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -44,6 +50,13 @@ HEADERS += \
 #    ../Iterator.h \
 #    ../Vertex.h \
 #    ../VertexController.h
+    ../City.h \
+    ../CityController.h \
+    ../ElasticNet.h \
+    ../Iterable.h \
+    ../Iterator.h \
+    ../Vertex.h \
+    ../VertexController.h
 
 FORMS += \
         mainwindow.ui
