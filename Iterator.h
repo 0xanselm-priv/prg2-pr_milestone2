@@ -23,6 +23,24 @@ private:
 public:
     Iterator(float, int, float, float, float);
 
+    void set_eta_goal(float x){
+        this->eta_goal = x;
+    }
+    void set_iter_max(int x){
+        this->iter_max = x;
+    }
+    void set_alpha(float x){
+        this->alpha = x;
+    }
+    void set_beta(float x){
+        this->beta = x;
+    }
+    void set_k(float x){
+        this->k = x;
+    }
+
+
+
     vector <float> add(vector <float>, vector <float>);
     vector <float> sub(vector <float>, vector <float>);
 
