@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <tuple>
+#include <math.h>
 
 int canvas_width;
 int canvas_height;
@@ -117,18 +118,24 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
     ui->coord_label->adjustSize();
 
     //pushing the cities in cities list
-    cities_list.push_back(std::tuple<float, float>(float(x),float(y)));
+    //cities_list.push_back(std::tuple<float, float>(float(x),float(y)));
 
     //pushing cities in Elastic Net Object
-    for (int i = 0; i < net.get_city_list().size(); ++i) {
-        City city(x_float, y_float, 1);
-        if(net.get_city_list()[i]%city > (2*eta_goal_value)){
-            net.add_city(x_float, y_float);
-        } else {
-            QMessageBox::warning(this,"Filepath","No valid Filepath");
+    if (net.get_city_list().size() == 0) {
+        net.add_city(x_float, y_float);
+    } else {
+        for (int i = 0; i < net.get_city_list().size(); i++) {
+            City city(x_float, y_float, 0.0);
+            if (net.get_city_list()[i] % city < (2 * eta_goal_value)){
+                qDebug() << net.get_city_list()[i] % city;
+                QMessageBox::warning(this,"Distance Warning","City too close.");
+                break;
+            } else {
+                net.add_city(x_float, y_float);
+            }
         }
-    }
 
+    }
 
     QPixmap pixmap(canvas_width, canvas_height);
     pixmap.fill(QColor("transparent"));
