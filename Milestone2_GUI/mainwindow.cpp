@@ -195,88 +195,98 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
 
     //pushing the cities in cities list
     //cities_list.push_back(std::tuple<float, float>(float(x),float(y)));
-
+    auto cities_list = net.get_city_list();
     //pushing cities in Elastic Net Object
-    City city(x_float, y_float, 0.0);
-    if (net.get_city_list().empty()) {
-        net.add_city(x_float, y_float);
-    } else {
-        for (int i = 0; i < net.get_city_list().size(); i++) {
-            //qDebug() << city % net.get_city_list()[i];
-            float dist = city % net.get_city_list()[i];
-            float eta_2 = 2 * eta_goal_value;
-            if (dist < eta_2){
-                QMessageBox::warning(this,"Distance Warning","Proximity ok");
-                break;
-            } else {
+//    City city(x_float, y_float, 0.0);
+    if (x < canvas_width && y < canvas_height) {
+        if (net.get_city_list().empty()) {
+            net.add_city(x_float, y_float);
+        } else {
+            for (int i = 0; i < cities_list.size(); i++) {
+                if (city_counter_value>6) {
+                    QMessageBox::warning(this,"Performance Error","Adding to many Cities decreases performance");
+                    break;
+                }
                 net.add_city(x_float, y_float);
+//                //                Distance Checker
+//                //qDebug() << city % net.get_city_list()[i];
+//                float dist = city % net.get_city_list()[i];
+//                float eta_2 = 2 * eta_goal_value;
+//                if (dist < eta_2){
+//                    QMessageBox::warning(this,"Distance Warning","Proximity ok");
+//                    break;
+//                } else {
+//                    net.add_city(x_float, y_float);
+//                }
+
+
             }
+
         }
 
-    }
+        QPixmap pixmap(canvas_width, canvas_height);
+        pixmap.fill(QColor("transparent"));
+        QPainter painter (&pixmap);
 
-    QPixmap pixmap(canvas_width, canvas_height);
-    pixmap.fill(QColor("transparent"));
-    QPainter painter (&pixmap);
+        //Paint Vertices
+        for (int i = 0; i < net.get_city_list().size(); ++i) {
+            int x_coord = net.get_city_list()[i].get_x();
+            int y_coord = net.get_city_list()[i].get_y();
+            painter.setBrush(Qt::red);
+            painter.drawRect(x_coord, y_coord, 5, 5);
+            this->log_append("Last City added: " + QString::number(x_coord) + " " + QString::number(y_coord));
+        }
 
-    //Paint Vertices
-    for (int i = 0; i < net.get_city_list().size(); ++i) {
-        int x_coord = net.get_city_list()[i].get_x();
-        int y_coord = net.get_city_list()[i].get_y();
-        painter.setBrush(Qt::red);
-        painter.drawRect(x_coord, y_coord, 5, 5);
-        this->log_append("Last City added: " + QString::number(x_coord) + " " + QString::number(y_coord));
-    }
+        //Paint Vertices
+        for (int i = 0; i < net.get_vertex_list().size(); ++i) {
+            int x_coord = int (net.get_vertex_list()[i].get_x());
+            int y_coord = int (net.get_vertex_list()[i].get_y());
+            painter.setBrush(Qt::green);
+            painter.drawRect(x_coord, y_coord, 5, 5);
+            this->log_append("Last Vertex added: " + QString::number(x_coord) + " " + QString::number(y_coord));
+            this->log_append("Vertex List Size: " + QString::number(net.get_vertex_list().size()));
+        }
 
-    //Paint Vertices
-    for (int i = 0; i < net.get_vertex_list().size(); ++i) {
-        int x_coord = int (net.get_vertex_list()[i].get_x());
-        int y_coord = int (net.get_vertex_list()[i].get_y());
-        painter.setBrush(Qt::green);
-        painter.drawRect(x_coord, y_coord, 5, 5);
-        this->log_append("Last Vertex added: " + QString::number(x_coord) + " " + QString::number(y_coord));
-        this->log_append("Vertex List Size: " + QString::number(net.get_vertex_list().size()));
-    }
+        //Drawing Mid - Niels Style
+        int factor = 10;
+        int mid_x = int(net.get_mid_x());
+        int mid_y = int(net.get_mid_y());
+        painter.setBrush(Qt::black);
+        painter.drawLine(mid_x-factor, mid_y, mid_x+factor, mid_y);
+        painter.drawLine(mid_x, mid_y-factor, mid_x, mid_y+factor);
+        this->log_append("Mid: " + QString::number(mid_x) + " " + QString::number(mid_y));
 
-    //Drawing Mid - Niels Style
-    int factor = 10;
-    int mid_x = int(net.get_mid_x());
-    int mid_y = int(net.get_mid_y());
-    painter.setBrush(Qt::black);
-    painter.drawLine(mid_x-factor, mid_y, mid_x+factor, mid_y);
-    painter.drawLine(mid_x, mid_y-factor, mid_x, mid_y+factor);
-    this->log_append("Mid: " + QString::number(mid_x) + " " + QString::number(mid_y));
+        //Drawing Mid - Robert Style
+        //    int factor_r = 10;
+        //    int mid_x_r = canvas_width/2;
+        //    int mid_y_r = canvas_height/2;
+        //    painter.setBrush(Qt::yellow);
+        //    painter.drawLine(mid_x_r-factor_r, mid_y_r, mid_x_r+factor_r, mid_y_r);
+        //    painter.drawLine(mid_x_r, mid_y_r-factor_r, mid_x_r, mid_y_r+factor_r);
+        //    this->log_append("Mid: " + QString::number(mid_x_r) + " " + QString::number(mid_y_r));
 
-    //Drawing Mid - Robert Style
-    //    int factor_r = 10;
-    //    int mid_x_r = canvas_width/2;
-    //    int mid_y_r = canvas_height/2;
-    //    painter.setBrush(Qt::yellow);
-    //    painter.drawLine(mid_x_r-factor_r, mid_y_r, mid_x_r+factor_r, mid_y_r);
-    //    painter.drawLine(mid_x_r, mid_y_r-factor_r, mid_x_r, mid_y_r+factor_r);
-    //    this->log_append("Mid: " + QString::number(mid_x_r) + " " + QString::number(mid_y_r));
-
-    //Drawing connecting lines between vertices
-    for (int i = 0; i < net.get_vertex_list().size() - 1; ++i) {
-        // Look out for logic error
-        int vert1_x = net.get_vertex_list()[i].get_x();
-        int vert1_y = net.get_vertex_list()[i].get_y();
-        int vert2_x = net.get_vertex_list()[i+1].get_x();
-        int vert2_y = net.get_vertex_list()[i+1].get_y();
+        //Drawing connecting lines between vertices
+        for (int i = 0; i < net.get_vertex_list().size() - 1; ++i) {
+            // Look out for logic error
+            int vert1_x = net.get_vertex_list()[i].get_x();
+            int vert1_y = net.get_vertex_list()[i].get_y();
+            int vert2_x = net.get_vertex_list()[i+1].get_x();
+            int vert2_y = net.get_vertex_list()[i+1].get_y();
+            QLineF line(vert1_x, vert1_y, vert2_x, vert2_y);
+            painter.drawLine(line);
+        }
+        int length = net.get_vertex_list().size();
+        int vert1_x = net.get_vertex_list()[0].get_x();
+        int vert1_y = net.get_vertex_list()[0].get_y();
+        int vert2_x = net.get_vertex_list()[length-1].get_x();
+        int vert2_y = net.get_vertex_list()[length-1].get_y();
         QLineF line(vert1_x, vert1_y, vert2_x, vert2_y);
+        painter.setBrush(Qt::blue);
         painter.drawLine(line);
-    }
-    int length = net.get_vertex_list().size();
-    int vert1_x = net.get_vertex_list()[0].get_x();
-    int vert1_y = net.get_vertex_list()[0].get_y();
-    int vert2_x = net.get_vertex_list()[length-1].get_x();
-    int vert2_y = net.get_vertex_list()[length-1].get_y();
-    QLineF line(vert1_x, vert1_y, vert2_x, vert2_y);
-    painter.setBrush(Qt::blue);
-    painter.drawLine(line);
-    //End Vertex Painting
+        //End Vertex Painting
 
-    ui->canvas_label->setPixmap(pixmap);
+        ui->canvas_label->setPixmap(pixmap);
+    }
 }
 
 void MainWindow::on_cv_ratio_valueChanged(double arg1)
