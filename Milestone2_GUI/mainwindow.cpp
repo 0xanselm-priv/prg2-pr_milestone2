@@ -70,7 +70,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->k->setMaximum(50.0);
 
     ui->radius->setMinimum(0.1);
-    ui->radius->setMaximum(50.0);
+    ui->radius->setValue(40.0);
+    ui->radius->setMaximum(70.0);
 
     //Timer init
     timer = new QTimer(this);
@@ -173,9 +174,6 @@ void MainWindow::log_append(QString to_append) {
 
 void MainWindow::mousePressEvent(QMouseEvent *ev)
 {
-    city_counter_value++;
-    ui->city_counter->setText("City Counter: " + QString::number(city_counter_value));
-
     //Security Action. No running possible without cities.
     if(city_counter_value > 0) {
         ui->start_button->setEnabled(true);
@@ -193,13 +191,16 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
     ui->coord_label->setText("X: " + x_str + " Y: " + y_str);
     ui->coord_label->adjustSize();
 
-    //pushing the cities in cities list
+    //Pushing the cities in cities list
     //cities_list.push_back(std::tuple<float, float>(float(x),float(y)));
     auto cities_list = net.get_city_list();
     //pushing cities in Elastic Net Object
-//    City city(x_float, y_float, 0.0);
+    //    City city(x_float, y_float, 0.0);
     if (x < canvas_width && y < canvas_height) {
-        if (net.get_city_list().empty()) {
+        //Only add Cities if in range of canvas
+        city_counter_value++;
+        ui->city_counter->setText("City Counter: " + QString::number(city_counter_value));
+        if (net.get_city_list().empty()) { //There is no min proximity for first city
             net.add_city(x_float, y_float);
         } else {
             for (int i = 0; i < cities_list.size(); i++) {
@@ -208,16 +209,16 @@ void MainWindow::mousePressEvent(QMouseEvent *ev)
                     break;
                 }
                 net.add_city(x_float, y_float);
-//                //                Distance Checker
-//                //qDebug() << city % net.get_city_list()[i];
-//                float dist = city % net.get_city_list()[i];
-//                float eta_2 = 2 * eta_goal_value;
-//                if (dist < eta_2){
-//                    QMessageBox::warning(this,"Distance Warning","Proximity ok");
-//                    break;
-//                } else {
-//                    net.add_city(x_float, y_float);
-//                }
+                //                //                Distance Checker
+                //                //qDebug() << city % net.get_city_list()[i];
+                //                float dist = city % net.get_city_list()[i];
+                //                float eta_2 = 2 * eta_goal_value;
+                //                if (dist < eta_2){
+                //                    QMessageBox::warning(this,"Distance Warning","Proximity ok");
+                //                    break;
+                //                } else {
+                //                    net.add_city(x_float, y_float);
+                //                }
 
 
             }
